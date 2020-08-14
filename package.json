@@ -1,6 +1,6 @@
 {
   "name": "vue-draggable-next",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "dist/vue-draggable-next.cjs.js",
   "browser": "dist/vue-draggable-next.esm.js",
