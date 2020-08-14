@@ -21,14 +21,25 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/anish2690/vue-draggable-next.git",
-    "dev": "vite",
-    "build": "vite build"
   },
-  "author": "Anish George",
+  "author": {
+    "name": "Anish George",
+    "email": "anishgeorge2690@gmail.com"
+  },
   "license": "MIT",
   "engines": {
     "node": ">=10.16.0"
   },
+  "keywords": [
+    "typescript",
+    "javascript",
+    "vue",
+    "vue-next",
+    "vue3",
+    "draggable",
+    "vue-draggable",
+    "vue-draggable-next"
+  ],
   "dependencies": {
     "sortablejs": "^1.10.2"
   },
