@@ -25,22 +25,30 @@ yarn add vue-draggable-next
   </div>
 </template>
 <script>
-  data() {
-    return {
-      enabled: true,
-      list: [
-        { name: 'John', id: 1 },
-        { name: 'Joao', id: 2 },
-        { name: 'Jean', id: 3 },
-        { name: 'Gerard', id: 4 },
-      ],
-      dragging: false,
-    }
-  },
-  methods: {
-    log(event) {
-        console.log(event)
+  import { defineComponent } from 'vue'
+  import { VueDraggableNext } from 'vue-draggable-next'
+  export default defineComponent({
+    components: {
+      draggable: VueDraggableNext,
     },
+    data() {
+      return {
+        enabled: true,
+        list: [
+          { name: 'John', id: 1 },
+          { name: 'Joao', id: 2 },
+          { name: 'Jean', id: 3 },
+          { name: 'Gerard', id: 4 },
+        ],
+        dragging: false,
+      }
+    },
+    methods: {
+      log(event) {
+        console.log(event)
+      },
+    },
+  })
 </script>
 ```
 
