@@ -68,6 +68,7 @@ const eventsToEmit = ['Choose', 'Unchoose', 'Sort', 'Filter', 'Clone']
 const readonlyProperties = ['Move', ...eventsListened, ...eventsToEmit].map(
 	evt => 'on' + evt
 )
+// @ts-ignore
 let draggingElement: any = null
 
 const props = {
