@@ -130,7 +130,7 @@ export const VueDraggableNext = defineComponent({
 		return h(this.tag, this.$attrs, slots)
 	},
 	created() {
-		if (!this.list) {
+		if (this.list !== null && this.modelValue !== null) {
 			console.error(
 				'list props are mutually exclusive! Please set one.'
 			)
