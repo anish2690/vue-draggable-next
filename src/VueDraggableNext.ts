@@ -1,6 +1,6 @@
 import Sortable from 'sortablejs'
 import { insertNodeAt, camelize, console, removeNode } from './util/helper'
-import { h, defineComponent, VNode } from 'vue'
+import { h, defineComponent, VNode, resolveComponent, ConcreteComponent } from 'vue'
 // TODO
 interface OpenObject {
 	[key: string]: any
@@ -125,9 +125,9 @@ export const VueDraggableNext = defineComponent({
 	},
 	render() {
 		const slots = this.$slots.default ? this.$slots.default() : null
-		if (!slots) return h(this.tag, [])
+		if (!slots) return h(this.getTag(), [])
 		this.transitionMode = isTransition(slots)
-		return h(this.tag, this.$attrs, slots)
+		return h(this.getTag(), this.$attrs, slots)
 	},
 	created() {
 		if (this.list !== null && this.modelValue !== null) {
@@ -190,6 +190,11 @@ export const VueDraggableNext = defineComponent({
 	},
 
 	methods: {
+
+		getTag() {
+			return resolveComponent(this.tag) ? resolveComponent(this.tag) : this.tag;
+		},
+
 		updateOptions(newOptionValue: OpenObject) {
 			for (var property in newOptionValue) {
 				const value = camelize(property)
