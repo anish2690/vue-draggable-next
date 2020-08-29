@@ -96,11 +96,6 @@ const props = {
 		type: Function,
 		default: null,
 	},
-	componentData: {
-		type: Object,
-		required: false,
-		default: null,
-	},
 	modelValue: {
 		type: Array,
 		required: false,
