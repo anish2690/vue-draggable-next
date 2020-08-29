@@ -35,6 +35,7 @@ const tabs = [
   { name: 'Clone', component: 'clone' },
   { name: 'Transition Group', component: 'transition-group' },
   { name: 'Nested', component: 'nested-component' },
+  { name: 'Vuex', component: 'vuex-component' },
   { name: 'V-Model', component: 'v-model-component' },
 ]
 
