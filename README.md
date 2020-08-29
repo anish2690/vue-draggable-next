@@ -2,6 +2,8 @@
 
 Vue 3 drag-and-drop component based on Sortable.js
 
+[Demo](https://vue-draggable-next.vercel.app/).
+
 ## Installation
 
 ```
