@@ -1,25 +1,69 @@
 <template>
-  <div class="h-screen">
-    <basic />
-    <basic1 />
-    <nestedExample />
+  <a class="ribbon" href="https://github.com/anish2690/vue-draggable-next"
+    >Fork me on Github</a
+  >
+  <div class="pt-5 rounded bg-gradient-to-r from-teal-400 to-blue-500 h-screen">
+    <div
+      class="text-center text-5xl font-extrabold leading-none tracking-tight my-10"
+    >
+      vue-draggable-next
+    </div>
+    <div class="flex justify-center">
+      <div
+        v-for="tab in tabs"
+        :key="tab"
+        class="bg-gray-200 p-4 cursor-pointer border hover:bg-gray-300"
+        @click="activeTab = tab.component"
+        :class="{ 'bg-gray-400': activeTab === tab.component }"
+      >
+        {{ tab.name }}
+      </div>
+    </div>
+    <div class="mx-10 my-10 shadow-xl p-5 component-container">
+      <div v-for="(tab, index) of tabs" :key="index">
+        <component :is="tab.component" v-if="tab.component === activeTab" />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { defineComponent, defineAsyncComponent } from 'vue'
-const basic = defineAsyncComponent(() => import('./components/basic.vue'))
-const basic1 = defineAsyncComponent(() => import('./components/basic1.vue'))
-const nestedExample = defineAsyncComponent(() =>
-  import('./components/nestedExample.vue')
-)
+import { defineComponent, defineAsyncComponent, ref } from 'vue'
+// const basic = defineAsyncComponent(() => import('./components/basic.vue'))
+// const transitionGroup = defineAsyncComponent(() =>
+//   import('./components/transition-group.vue')
+// )
+// const nestedComponent = defineAsyncComponent(() =>
+//   import('./components/nested-component.vue')
+// )
+const tabs = [
+  { name: 'Simple', component: 'basic' },
+  { name: 'Clone', component: 'clone' },
+  { name: 'Transition Group', component: 'transition-group' },
+  { name: 'Nested', component: 'nested-component' },
+]
+
+const components = tabs.reduce((comps, item) => {
+  comps[item.component] = defineAsyncComponent(() =>
+    import(`./components/${item.component}.vue`)
+  )
+  return comps
+}, {})
 
 export default defineComponent({
   name: 'App',
-  components: {
-    basic,
-    basic1,
-    nestedExample,
+  components,
+  setup() {
+    const activeTab = ref('basic')
+    return {
+      tabs,
+      activeTab,
+    }
   },
 })
 </script>
+<style>
+.component-container {
+  min-height: 600px;
+}
+</style>

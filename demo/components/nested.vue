@@ -1,13 +1,15 @@
 <template>
-  <draggable class="dragArea" tag="ul" :list="tasks" :group="{ name: 'g1' }">
-    <li v-for="el in tasks" :key="el.name">
-      <p>{{ el.name }}</p>
-      <nested-draggable :tasks="el.tasks" class="bg-gray-100 pl-5" />
-    </li>
-  </draggable>
+  <div class="bg-white">
+    <draggable class="dragArea" tag="ul" :list="tasks" :group="{ name: 'g1' }">
+      <li v-for="el in tasks" :key="el.name">
+        <p>{{ el.name }}</p>
+        <nested-draggable :tasks="el.tasks" class="bg-gray-100 pl-5" />
+      </li>
+    </draggable>
+  </div>
 </template>
 <script>
-import { VueDraggableNext } from '../@/'
+import { VueDraggableNext } from '/@/'
 export default {
   props: {
     tasks: {

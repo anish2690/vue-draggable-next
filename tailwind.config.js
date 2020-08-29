@@ -1,8 +1,19 @@
 module.exports = {
-  purge: [],
+  purge: {
+    content: [
+
+    ],
+    options: {
+      extractors: [
+        {
+          extensions: ['vue'],
+        },
+      ],
+    },
+  },
   theme: {
     extend: {},
   },
   variants: {},
-  plugins: [],
+  plugins: [require('@tailwindcss/ui')],
 }

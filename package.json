@@ -11,7 +11,7 @@
     "build": "rollup -c rollup.config.js",
     "dev": "vite serve",
     "start": "vite serve --mode production",
-    "demo:build": "vite build",
+    "demo:build": "cross-env NODE_ENV=production vite build",
     "release": "bash scripts/release.sh",
     "build:dts": "api-extractor run --local --verbose",
     "lint": "prettier -c --parser typescript \"{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
@@ -47,15 +47,18 @@
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
     "@rollup/plugin-replace": "^2.3.3",
+    "@tailwindcss/ui": "^0.5.0",
     "@types/sortablejs": "^1.10.5",
+    "@vue/compiler-sfc": "^3.0.0-rc.9",
+    "cross-env": "^7.0.2",
     "pascalcase": "^1.0.0",
     "prettier": "^2.0.5",
     "rollup-plugin-terser": "^6.1.0",
     "rollup-plugin-typescript2": "^0.27.1",
-    "tailwindcss": "^1.6.2",
+    "tailwindcss": "^1.7.5",
     "ts-node": "^8.10.2",
     "typescript": "^3.9.7",
     "vite": "^1.0.0-rc.4",
-    "vue": "^3.0.0-rc.5"
+    "vue": "^3.0.0-rc.9"
   }
 }

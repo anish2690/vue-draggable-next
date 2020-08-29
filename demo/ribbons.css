@@ -1,0 +1,74 @@
+.ribbon {
+	position: fixed;
+	top: 4.6em;
+	left: -3.4em;
+	z-index: 9999;
+	width: 18em;
+	height: 2em;
+	overflow: hidden;
+	background-color: #dc3545;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	line-height: 2em;
+	color: #fff;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 1em;
+	text-align: center;
+	text-decoration: none;
+	font-weight: bold;
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+.ribbon-sm { font-size: 13px; }
+.ribbon-md { font-size: 16px; }
+.ribbon-lg { font-size: 20px; }
+
+.ribbon-primary { background-color: #007bff; }
+.ribbon-secondary { background-color: #6c757d; }
+.ribbon-success { background-color: #28a745; }
+.ribbon-warning { background-color: #ffc107; }
+.ribbon-info { background-color: #17a2b8; }
+.ribbon-light 
+{ 
+	color: #343a40;
+	background-color: #f8f9fa;
+}
+.ribbon-dark { background-color: #343a40; }
+.ribbon-white 
+{ 
+	color: #343a40;
+	background-color: #ffffff;
+}
+
+.ribbon.ribbon-top-right 
+{ 
+	left: auto;
+	right: -3.4em;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+.ribbon.ribbon-bottom-left 
+{ 
+	top: auto;
+	bottom: 4.6em;
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+.ribbon.ribbon-bottom-right 
+{ 
+	top: auto;
+	left: auto;
+	bottom: 4.6em;
+	right: -3.4em;
+}

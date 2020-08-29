@@ -1,11 +1,10 @@
 <template>
-  <div class="flex">
-    <div class="w-6/12">
-      <h3>Nested draggable</h3>
+  <div class="flex justify-center">
+    <div class="w-4/12 mr-2">
       <nested-draggable :tasks="list" />
     </div>
 
-    <rawDisplay class="w-full" :value="list" title="List" />
+    <rawDisplay class="w-64" :value="list" />
   </div>
 </template>
 

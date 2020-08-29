@@ -1,48 +1,41 @@
 <template>
-  <div class="flex">
-    <div class="w-1/4">
+  <div class="flex justify-center">
+    <div class="w-2/6 rounded overflow-hidden p-5">
       <button class="btn btn-blue" @click="sort">
         To original order
       </button>
+      <draggable
+        class="list-group"
+        tag="ul"
+        :list="list"
+        v-bind="dragOptions"
+        @start="isDragging = true"
+        @end="isDragging = false"
+      >
+        <transition-group type="transition" name="flip-list">
+          <li
+            class="list-group-item p-1 bg-gray-200 m-1 rounded-md"
+            v-for="element in list"
+            :key="element.order"
+          >
+            <i
+              :class="
+                element.fixed ? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'
+              "
+              @click="element.fixed = !element.fixed"
+              aria-hidden="true"
+            ></i>
+            {{ element.name }}
+          </li>
+        </transition-group>
+      </draggable>
     </div>
-
-    <div class="w-3/4">
-      <h3 class="py-5 font-bold">Transition</h3>
-      <div class="max-w-sm rounded overflow-hidden shadow-lg p-5">
-        <draggable
-          class="list-group"
-          tag="ul"
-          :list="list"
-          v-bind="dragOptions"
-          @start="isDragging = true"
-          @end="isDragging = false"
-        >
-          <transition-group type="transition" name="flip-list">
-            <li
-              class="list-group-item p-1 bg-gray-200 m-1 rounded-md"
-              v-for="element in list"
-              :key="element.order"
-            >
-              <i
-                :class="
-                  element.fixed ? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'
-                "
-                @click="element.fixed = !element.fixed"
-                aria-hidden="true"
-              ></i>
-              {{ element.name }}
-            </li>
-          </transition-group>
-        </draggable>
-      </div>
-    </div>
-
-    <rawDisplayer class="col-3" :value="list" title="List" />
+    <rawDisplayer :value="list" class="w-64" />
   </div>
 </template>
 
 <script>
-import { VueDraggableNext } from '../@/'
+import { VueDraggableNext } from '/@/'
 import rawDisplayer from './rawDisplay.vue'
 const message = [
   'vue.js 3.0',
