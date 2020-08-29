@@ -101,6 +101,11 @@ const props = {
 		required: false,
 		default: null,
 	},
+	modelValue: {
+		type: Array,
+		required: false,
+		default: null
+	},
 }
 
 export const VueDraggableNext = defineComponent({
@@ -168,7 +173,7 @@ export const VueDraggableNext = defineComponent({
 	computed: {
 
 		realList(): OpenObject[] | OpenObject {
-			return this.list
+			return this.list ? this.list : this.modelValue;
 		},
 	},
 
@@ -232,6 +237,9 @@ export const VueDraggableNext = defineComponent({
 				onList(this.list)
 				return
 			}
+			const newList = [...this.modelValue];
+			onList(newList);
+			this.$emit("update:modelValue", newList);
 		},
 
 		spliceList() {
