@@ -29,13 +29,7 @@
 
 <script>
 import { defineComponent, defineAsyncComponent, ref } from 'vue'
-// const basic = defineAsyncComponent(() => import('./components/basic.vue'))
-// const transitionGroup = defineAsyncComponent(() =>
-//   import('./components/transition-group.vue')
-// )
-// const nestedComponent = defineAsyncComponent(() =>
-//   import('./components/nested-component.vue')
-// )
+
 const tabs = [
   { name: 'Simple', component: 'basic' },
   { name: 'Clone', component: 'clone' },

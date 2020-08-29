@@ -329,12 +329,51 @@ export const VueDraggableNext = defineComponent({
 			if (!onMove || !this.realList) {
 				return true
 			}
-			return evt
+			const relatedContext = this.getRelatedContextFromMoveEvent(evt);
+			const draggedContext = this.context;
+			const futureIndex = this.computeFutureIndex(relatedContext, evt);
+			Object.assign(draggedContext, { futureIndex });
+			const sendEvt = Object.assign({}, evt, {
+				relatedContext,
+				draggedContext
+			});
+			return onMove(sendEvt, originalEvent);
 		},
 
 		onDragEnd() {
 			this.computeIndexes()
 			draggingElement = null
+		},
+
+		getRelatedContextFromMoveEvent({ to, related }: any) {
+			const component = this;
+			if (!component) {
+				return { component };
+			}
+			const list = component.realList;
+			const context = { list, component };
+			if (to !== related && list && component.getUnderlyingVm) {
+				const destination = component.getUnderlyingVm(related);
+				if (destination) {
+					return Object.assign(destination, context);
+				}
+			}
+			return context;
+		},
+
+		computeFutureIndex(relatedContext: any, evt: any) {
+			if (!relatedContext.element) {
+				return 0;
+			}
+			const domChildren = [...evt.to.children].filter(
+				el => el.style["display"] !== "none"
+			);
+			const currentDOMIndex = domChildren.indexOf(evt.related);
+			const currentIndex = relatedContext.component.getVmIndex(currentDOMIndex);
+			const draggedInList = domChildren.indexOf(draggingElement) !== -1;
+			return draggedInList || !evt.willInsertAfter
+				? currentIndex
+				: currentIndex + 1;
 		},
 	},
 })

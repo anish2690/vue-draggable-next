@@ -41,10 +41,11 @@ export default defineComponent({
       ],
     })
     function log(event) {
-      //   console.log(event)
+      // console.log(event)
     }
-    function checkMove(event) {
-      console.log('checkMove', event)
+    function checkMove(evt) {
+      console.log('Future index: ' + evt.draggedContext.futureIndex)
+      console.log('element: ' + evt.draggedContext.element.name)
     }
     return {
       state,
