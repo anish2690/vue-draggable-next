@@ -1,6 +1,6 @@
 import Sortable from 'sortablejs'
 import { insertNodeAt, camelize, console, removeNode } from './util/helper'
-import { h, defineComponent, VNode, resolveComponent, ConcreteComponent } from 'vue'
+import { h, defineComponent, VNode, resolveComponent } from 'vue'
 // TODO
 interface OpenObject {
 	[key: string]: any
@@ -63,6 +63,13 @@ function isTransition(slots: VNode[]) {
 	return isTransitionName(type.name)
 }
 
+function getComponentAttributes($attrs: OpenObject, componentData: OpenObject) {
+	if (!componentData) {
+		return $attrs;
+	}
+	return { ...componentData.props, ...componentData.attrs };
+}
+
 const eventsListened = ['Start', 'Add', 'Remove', 'Update', 'End']
 const eventsToEmit = ['Choose', 'Unchoose', 'Sort', 'Filter', 'Clone']
 const readonlyProperties = ['Move', ...eventsListened, ...eventsToEmit].map(
@@ -101,6 +108,10 @@ const props = {
 		required: false,
 		default: null,
 	},
+	component: {
+		type: String,
+		default: null,
+	},
 	modelValue: {
 		type: Array,
 		required: false,
@@ -125,9 +136,10 @@ export const VueDraggableNext = defineComponent({
 	},
 	render() {
 		const slots = this.$slots.default ? this.$slots.default() : null
-		if (!slots) return h(this.getTag(), [])
+		const attrs = getComponentAttributes(this.$attrs, this.componentData)
+		if (!slots) return h(this.getTag(), attrs, [])
 		this.transitionMode = isTransition(slots)
-		return h(this.getTag(), this.$attrs, slots)
+		return h(this.getTag(), attrs, slots)
 	},
 	created() {
 		if (this.list !== null && this.modelValue !== null) {
@@ -191,8 +203,8 @@ export const VueDraggableNext = defineComponent({
 
 	methods: {
 
-		getTag() {
-			return resolveComponent(this.tag) ? resolveComponent(this.tag) : this.tag;
+		getTag(): any {
+			return this.component ? resolveComponent(this.component) : this.tag;
 		},
 
 		updateOptions(newOptionValue: OpenObject) {
@@ -266,7 +278,6 @@ export const VueDraggableNext = defineComponent({
 		},
 
 		getComponent(): any {
-			// TODO
 			return this.$slots.default
 				//@ts-ignore
 				? this.$slots.default()[0].componentInstance

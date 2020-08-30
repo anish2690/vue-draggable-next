@@ -37,7 +37,10 @@ const tabs = [
   { name: 'Nested', component: 'nested-component' },
   { name: 'Vuex', component: 'vuex-component' },
   { name: 'V-Model', component: 'v-model-component' },
-  { name: 'Third Party', component: 'third-party' },
+  {
+    name: 'Third Party',
+    component: 'third-party',
+  },
 ]
 
 const components = tabs.reduce((comps, item) => {

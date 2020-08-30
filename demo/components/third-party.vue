@@ -2,17 +2,34 @@
   <div class="flex justify-center">
     <div class="w-64">
       <draggable
-        class="dragArea list-group w-full"
         :list="state.list"
         :sort="true"
-        tag="list-component"
+        component="list-component"
+        :component-data="state.collapseComponentData"
+        @change="log"
       >
         <item-component
-          class="list-group-item bg-gray-300 m-1 p-3 rounded-md text-center cursor-pointer"
+          class="list-group-item bg-gray-300 m-1 p-3 rounded-md cursor-pointer"
           v-for="element in state.list"
           :key="element.name"
         >
-          {{ element.name }}
+          <div class="inline-flex items-center">
+            <svg
+              class="h-5 w-5 text-gray-700"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              />
+            </svg>
+            {{ element.name }}
+          </div>
         </item-component>
       </draggable>
     </div>
@@ -33,19 +50,37 @@ export default defineComponent({
   setup() {
     const state = reactive({
       list: [
-        { name: 'John', id: 1 },
-        { name: 'Joao', id: 2 },
-        { name: 'Jean', id: 3 },
-        { name: 'Gerard', id: 4 },
+        {
+          name: 'Mandy',
+          id: 1,
+        },
+        {
+          name: 'Colten',
+          id: 2,
+        },
+        {
+          name: 'Ashly',
+          id: 3,
+        },
+        {
+          name: 'Nathan',
+          id: 4,
+        },
       ],
+      collapseComponentData: {
+        props: {
+          classList: 'text-left text-md text-blue-700 list-group w-full w-64 ',
+        },
+      },
     })
-    function log(event) {
-      // console.log(event)
+    function log(event: any) {
+      console.log(event)
     }
-    function checkMove(evt) {
+    function checkMove(evt: any) {
       console.log('Future index: ' + evt.draggedContext.futureIndex)
       console.log('element: ' + evt.draggedContext.element.name)
     }
+
     return {
       state,
       log,
