@@ -1,6 +1,6 @@
 import { Plugin } from 'vue'
-import list from './list.vue'
-import item from './item.vue'
+import list from './list'
+import item from './item'
 
 export const registerComponents: Plugin = {
     install(app) {
