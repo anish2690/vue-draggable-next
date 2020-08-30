@@ -152,7 +152,7 @@ Default: `'null'`
 
 It is also possible to pass the name of vue component as element. In this case, draggable attribute will be passed to the create component.
 
-### componentData
+#### componentData
 
 Type: `Function`<br>
 Required: `false`<br>
