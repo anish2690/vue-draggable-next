@@ -178,7 +178,7 @@ export const VueDraggableNext = defineComponent({
 		this.computeIndexes()
 	},
 
-	beforeDestroy() {
+	beforeUnmount() {
 		if (this._sortable !== undefined) this._sortable.destroy()
 	},
 
