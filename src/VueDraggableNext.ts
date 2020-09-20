@@ -3,404 +3,397 @@ import { insertNodeAt, camelize, console, removeNode } from './util/helper'
 import { h, defineComponent, VNode, resolveComponent } from 'vue'
 // TODO
 interface OpenObject {
-	[key: string]: any
+  [key: string]: any
 }
 
 function computeVmIndex(vnodes: HTMLElement[], element: HTMLElement) {
-	return Object.values(vnodes).indexOf(element)
+  return Object.values(vnodes).indexOf(element)
 }
 
 function computeIndexes(
-	slots: HTMLElement[],
-	children: HTMLElement[],
-	isTransition: boolean,
-	footerOffset: number
+  slots: HTMLElement[],
+  children: HTMLElement[],
+  isTransition: boolean,
+  footerOffset: number
 ) {
-	if (!slots) {
-		return []
-	}
+  if (!slots) {
+    return []
+  }
 
-	const elmFromNodes = Object.values(slots)
-	const footerIndex = children.length - footerOffset
-	const rawIndexes = [...children].map((elt, idx) =>
-		idx >= footerIndex ? elmFromNodes.length : elmFromNodes.indexOf(elt)
-	)
-	return rawIndexes
+  const elmFromNodes = Object.values(slots)
+  const footerIndex = children.length - footerOffset
+  const rawIndexes = [...children].map((elt, idx) =>
+    idx >= footerIndex ? elmFromNodes.length : elmFromNodes.indexOf(elt)
+  )
+  return rawIndexes
 }
 
 function emit(evtName: string, evtData: { [key: string]: any }) {
-	//@ts-ignore
-	this.$nextTick(() => this.$emit(evtName.toLowerCase(), evtData))
+  //@ts-ignore
+  this.$nextTick(() => this.$emit(evtName.toLowerCase(), evtData))
 }
 
 function delegateAndEmit(evtName: string) {
-	//@ts-ignore
-	return evtData => {
-		//@ts-ignore
-		if (this.realList !== null) {
-			//@ts-ignore
-			this['onDrag' + evtName](evtData)
-		}
-		//@ts-ignore
-		emit.call(this, evtName, evtData)
-	}
+  //@ts-ignore
+  return evtData => {
+    //@ts-ignore
+    if (this.realList !== null) {
+      //@ts-ignore
+      this['onDrag' + evtName](evtData)
+    }
+    //@ts-ignore
+    emit.call(this, evtName, evtData)
+  }
 }
 
 function isTransitionName(name: string) {
-	return ['transition-group', 'TransitionGroup'].includes(name)
+  return ['transition-group', 'TransitionGroup'].includes(name)
 }
 
 function isTransition(slots: VNode[]) {
-	if (!slots || slots.length !== 1) {
-		return false
-	}
-	// @ts-ignore
-	const [{ type }] = slots
-	if (!type) {
-		return false
-	}
-	//@ts-ignore
-	return isTransitionName(type.name)
+  if (!slots || slots.length !== 1) {
+    return false
+  }
+  // @ts-ignore
+  const [{ type }] = slots
+  if (!type) {
+    return false
+  }
+  //@ts-ignore
+  return isTransitionName(type.name)
 }
 
 function getComponentAttributes($attrs: OpenObject, componentData: OpenObject) {
-	if (!componentData) {
-		return $attrs;
-	}
-	return { ...componentData.props, ...componentData.attrs };
+  if (!componentData) {
+    return $attrs
+  }
+  return { ...componentData.props, ...componentData.attrs }
 }
 
 const eventsListened = ['Start', 'Add', 'Remove', 'Update', 'End']
 const eventsToEmit = ['Choose', 'Unchoose', 'Sort', 'Filter', 'Clone']
 const readonlyProperties = ['Move', ...eventsListened, ...eventsToEmit].map(
-	evt => 'on' + evt
+  evt => 'on' + evt
 )
 // @ts-ignore
 let draggingElement: any = null
 
 const props = {
-	options: Object,
-	list: {
-		type: Array,
-		required: false,
-		default: null,
-	},
-	noTransitionOnDrag: {
-		type: Boolean,
-		default: false,
-	},
-	clone: {
-		type: Function,
-		default: (original: any) => {
-			return original
-		},
-	},
-	tag: {
-		type: String,
-		default: 'div',
-	},
-	move: {
-		type: Function,
-		default: null,
-	},
-	componentData: {
-		type: Object,
-		required: false,
-		default: null,
-	},
-	component: {
-		type: String,
-		default: null,
-	},
-	modelValue: {
-		type: Array,
-		required: false,
-		default: null
-	},
+  options: Object,
+  list: {
+    type: Array,
+    required: false,
+    default: null,
+  },
+  noTransitionOnDrag: {
+    type: Boolean,
+    default: false,
+  },
+  clone: {
+    type: Function,
+    default: (original: any) => {
+      return original
+    },
+  },
+  tag: {
+    type: String,
+    default: 'div',
+  },
+  move: {
+    type: Function,
+    default: null,
+  },
+  componentData: {
+    type: Object,
+    required: false,
+    default: null,
+  },
+  component: {
+    type: String,
+    default: null,
+  },
+  modelValue: {
+    type: Array,
+    required: false,
+    default: null,
+  },
 }
 
 export const VueDraggableNext = defineComponent({
-	name: "VueDraggableNext",
-	inheritAttrs: false,
-	props,
-	data() {
-		return {
-			transitionMode: false,
-			noneFunctionalComponentMode: false,
-			headerOffset: 0,
-			footerOffset: 0,
-			_sortable: {} as Sortable,
-			visibleIndexes: [] as number[],
-			context: {} as OpenObject | null,
-		}
-	},
-	render() {
-		const slots = this.$slots.default ? this.$slots.default() : null
-		const attrs = getComponentAttributes(this.$attrs, this.componentData)
-		if (!slots) return h(this.getTag(), attrs, [])
-		this.transitionMode = isTransition(slots)
-		return h(this.getTag(), attrs, slots)
-	},
-	created() {
-		if (this.list !== null && this.modelValue !== null) {
-			console.error(
-				'list props are mutually exclusive! Please set one.'
-			)
-		}
+  name: 'VueDraggableNext',
+  inheritAttrs: false,
+  props,
+  data() {
+    return {
+      transitionMode: false,
+      noneFunctionalComponentMode: false,
+      headerOffset: 0,
+      footerOffset: 0,
+      _sortable: {} as Sortable,
+      visibleIndexes: [] as number[],
+      context: {} as OpenObject | null,
+    }
+  },
+  render() {
+    const slots = this.$slots.default ? this.$slots.default() : null
+    const attrs = getComponentAttributes(this.$attrs, this.componentData)
+    if (!slots) return h(this.getTag(), attrs, [])
+    this.transitionMode = isTransition(slots)
+    return h(this.getTag(), attrs, slots)
+  },
+  created() {
+    if (this.list !== null && this.modelValue !== null) {
+      console.error('list props are mutually exclusive! Please set one.')
+    }
+  },
 
-	},
+  mounted() {
+    const optionsAdded: OpenObject = {}
+    eventsListened.forEach(elt => {
+      optionsAdded['on' + elt] = delegateAndEmit.call(this, elt)
+    })
 
-	mounted() {
-		const optionsAdded: OpenObject = {}
-		eventsListened.forEach(elt => {
-			optionsAdded['on' + elt] = delegateAndEmit.call(this, elt)
-		})
+    eventsToEmit.forEach(elt => {
+      optionsAdded['on' + elt] = emit.bind(this, elt)
+    })
 
-		eventsToEmit.forEach(elt => {
-			optionsAdded['on' + elt] = emit.bind(this, elt)
-		})
+    const attributes = Object.keys(this.$attrs).reduce(
+      (res: OpenObject, key) => {
+        res[camelize(key)] = this.$attrs[key]
+        return res
+      },
+      {}
+    )
 
-		const attributes = Object.keys(this.$attrs).reduce(
-			(res: OpenObject, key) => {
-				res[camelize(key)] = this.$attrs[key]
-				return res
-			},
-			{}
-		)
+    const options = Object.assign({}, attributes, optionsAdded, {
+      onMove: (evt: any, originalEvent: any) => {
+        return this.onDragMove(evt, originalEvent)
+      },
+    }) as Sortable.Options
+    !('draggable' in options) && (options.draggable = '>*')
+    this._sortable = new Sortable(this.$el, options)
+    this.computeIndexes()
+  },
 
-		const options = Object.assign({}, attributes, optionsAdded, {
-			onMove: (evt: any, originalEvent: any) => {
-				return this.onDragMove(evt, originalEvent)
-			},
-		}) as Sortable.Options
-		!('draggable' in options) && (options.draggable = '>*')
-		this._sortable = new Sortable(this.$el, options)
-		this.computeIndexes()
-	},
+  beforeUnmount() {
+    try {
+      if (this._sortable !== undefined) this._sortable.destroy()
+    } catch (error) {}
+  },
 
-	beforeUnmount() {
-		try {
-			if (this._sortable !== undefined) this._sortable.destroy()
-		} catch (error) {
-		}
-	},
+  computed: {
+    realList(): OpenObject[] | OpenObject {
+      return this.list ? this.list : this.modelValue
+    },
+  },
 
-	computed: {
+  watch: {
+    $attrs: {
+      handler(newOptionValue) {
+        this.updateOptions(newOptionValue)
+      },
+      deep: true,
+    },
+    realList() {
+      this.computeIndexes()
+    },
+  },
 
-		realList(): OpenObject[] | OpenObject {
-			return this.list ? this.list : this.modelValue;
-		},
-	},
+  methods: {
+    getTag(): any {
+      return this.component ? resolveComponent(this.component) : this.tag
+    },
 
-	watch: {
-		$attrs: {
-			handler(newOptionValue) {
-				this.updateOptions(newOptionValue)
-			},
-			deep: true,
-		},
-		realList() {
-			this.computeIndexes()
-		},
-	},
+    updateOptions(newOptionValue: OpenObject) {
+      for (var property in newOptionValue) {
+        const value = camelize(property)
+        if (readonlyProperties.indexOf(value) === -1) {
+          this._sortable.option(value, newOptionValue[property])
+        }
+      }
+    },
 
-	methods: {
+    getChildrenNodes() {
+      return this.$el.children
+    },
 
-		getTag(): any {
-			return this.component ? resolveComponent(this.component) : this.tag;
-		},
+    computeIndexes() {
+      this.$nextTick(() => {
+        this.visibleIndexes = computeIndexes(
+          this.getChildrenNodes(),
+          this.$el.children,
+          this.transitionMode,
+          this.footerOffset
+        )
+      })
+    },
 
-		updateOptions(newOptionValue: OpenObject) {
-			for (var property in newOptionValue) {
-				const value = camelize(property)
-				if (readonlyProperties.indexOf(value) === -1) {
-					this._sortable.option(value, newOptionValue[property])
-				}
-			}
-		},
+    getUnderlyingVm(htmlElt: HTMLElement) {
+      const index = computeVmIndex(this.getChildrenNodes() || [], htmlElt)
+      if (index === -1) {
+        //Edge case during move callback: related element might be
+        //an element different from collection
+        return null
+      }
+      //@ts-ignore
+      const element = this.realList[index]
+      return { index, element }
+    },
 
-		getChildrenNodes() {
-			return this.$el.children
-		},
+    emitChanges(evt: OpenObject) {
+      this.$nextTick(() => {
+        this.$emit('change', evt)
+      })
+    },
 
-		computeIndexes() {
-			this.$nextTick(() => {
-				this.visibleIndexes = computeIndexes(
-					this.getChildrenNodes(),
-					this.$el.children,
-					this.transitionMode,
-					this.footerOffset
-				)
-			})
-		},
+    alterList(onList: any) {
+      if (this.list) {
+        onList(this.list)
+        return
+      }
+      const newList = [...this.modelValue]
+      onList(newList)
+      this.$emit('update:modelValue', newList)
+    },
 
-		getUnderlyingVm(htmlElt: HTMLElement) {
-			const index = computeVmIndex(this.getChildrenNodes() || [], htmlElt)
-			if (index === -1) {
-				//Edge case during move callback: related element might be
-				//an element different from collection
-				return null
-			}
-			//@ts-ignore
-			const element = this.realList[index]
-			return { index, element }
-		},
+    spliceList() {
+      const spliceList = (list: any) => list.splice(...arguments)
+      this.alterList(spliceList)
+    },
 
-		emitChanges(evt: OpenObject) {
-			this.$nextTick(() => {
-				this.$emit('change', evt)
-			})
-		},
+    updatePosition(oldIndex: number, newIndex: number) {
+      const updatePosition = (list: any) =>
+        list.splice(newIndex, 0, list.splice(oldIndex, 1)[0])
+      this.alterList(updatePosition)
+    },
 
-		alterList(onList: any) {
-			if (this.list) {
-				onList(this.list)
-				return
-			}
-			const newList = [...this.modelValue];
-			onList(newList);
-			this.$emit("update:modelValue", newList);
-		},
+    getVmIndex(domIndex: number) {
+      const indexes = this.visibleIndexes
+      const numberIndexes = indexes.length
+      return domIndex > numberIndexes - 1 ? numberIndexes : indexes[domIndex]
+    },
 
-		spliceList() {
-			const spliceList = (list: any) => list.splice(...arguments)
-			this.alterList(spliceList)
-		},
+    getComponent(): any {
+      return this.$slots.default
+        ? //@ts-ignore
+          this.$slots.default()[0].componentInstance
+        : null
+    },
 
-		updatePosition(oldIndex: number, newIndex: number) {
-			const updatePosition = (list: any) =>
-				list.splice(newIndex, 0, list.splice(oldIndex, 1)[0])
-			this.alterList(updatePosition)
-		},
+    resetTransitionData(index: number) {
+      if (!this.noTransitionOnDrag || !this.transitionMode) {
+        return
+      }
+      var nodes = this.getChildrenNodes()
+      nodes[index].data = null
+      const transitionContainer = this.getComponent()
+      transitionContainer.children = []
+      transitionContainer.kept = undefined
+    },
 
+    onDragStart(evt: OpenObject) {
+      this.context = this.getUnderlyingVm(evt.item)
+      if (!this.context) return
+      evt.item._underlying_vm_ = this.clone(this.context.element)
+      draggingElement = evt.item
+    },
 
-		getVmIndex(domIndex: number) {
-			const indexes = this.visibleIndexes
-			const numberIndexes = indexes.length
-			return domIndex > numberIndexes - 1 ? numberIndexes : indexes[domIndex]
-		},
+    onDragAdd(evt: OpenObject) {
+      const element = evt.item._underlying_vm_
+      if (element === undefined) {
+        return
+      }
+      removeNode(evt.item)
+      const newIndex = this.getVmIndex(evt.newIndex)
+      //@ts-ignore
+      this.spliceList(newIndex, 0, element)
+      this.computeIndexes()
+      const added = { element, newIndex }
+      this.emitChanges({ added })
+    },
 
-		getComponent(): any {
-			return this.$slots.default
-				//@ts-ignore
-				? this.$slots.default()[0].componentInstance
-				: null
-		},
+    onDragRemove(evt: OpenObject) {
+      insertNodeAt(this.$el, evt.item, evt.oldIndex)
+      if (evt.pullMode === 'clone') {
+        removeNode(evt.clone)
+        return
+      }
+      if (!this.context) return
+      const oldIndex = this.context.index
+      //@ts-ignore
+      this.spliceList(oldIndex, 1)
+      const removed = { element: this.context.element, oldIndex }
+      this.resetTransitionData(oldIndex)
+      this.emitChanges({ removed })
+    },
 
-		resetTransitionData(index: number) {
-			if (!this.noTransitionOnDrag || !this.transitionMode) {
-				return
-			}
-			var nodes = this.getChildrenNodes()
-			nodes[index].data = null
-			const transitionContainer = this.getComponent()
-			transitionContainer.children = []
-			transitionContainer.kept = undefined
-		},
+    onDragUpdate(evt: any) {
+      removeNode(evt.item)
+      insertNodeAt(evt.from, evt.item, evt.oldIndex)
+      //@ts-ignore
+      const oldIndex = this.context.index
+      const newIndex = this.getVmIndex(evt.newIndex)
+      this.updatePosition(oldIndex, newIndex)
+      //@ts-ignore
+      const moved = { element: this.context.element, oldIndex, newIndex }
+      this.emitChanges({ moved })
+    },
 
-		onDragStart(evt: OpenObject) {
-			this.context = this.getUnderlyingVm(evt.item)
-			if (!this.context) return
-			evt.item._underlying_vm_ = this.clone(this.context.element)
-			draggingElement = evt.item
-		},
+    updateProperty(evt: any, propertyName: any) {
+      evt.hasOwnProperty(propertyName) &&
+        (evt[propertyName] += this.headerOffset)
+    },
 
-		onDragAdd(evt: OpenObject) {
-			const element = evt.item._underlying_vm_
-			if (element === undefined) {
-				return
-			}
-			removeNode(evt.item)
-			const newIndex = this.getVmIndex(evt.newIndex)
-			//@ts-ignore
-			this.spliceList(newIndex, 0, element)
-			this.computeIndexes()
-			const added = { element, newIndex }
-			this.emitChanges({ added })
-		},
+    onDragMove(evt: any, originalEvent: any) {
+      const onMove = this.move
+      if (!onMove || !this.realList) {
+        return true
+      }
+      const relatedContext = this.getRelatedContextFromMoveEvent(evt)
+      const draggedContext = this.context
+      const futureIndex = this.computeFutureIndex(relatedContext, evt)
+      Object.assign(draggedContext, { futureIndex })
+      const sendEvt = Object.assign({}, evt, {
+        relatedContext,
+        draggedContext,
+      })
+      return onMove(sendEvt, originalEvent)
+    },
 
-		onDragRemove(evt: OpenObject) {
-			insertNodeAt(this.$el, evt.item, evt.oldIndex)
-			if (evt.pullMode === 'clone') {
-				removeNode(evt.clone)
-				return
-			}
-			if (!this.context) return
-			const oldIndex = this.context.index
-			//@ts-ignore
-			this.spliceList(oldIndex, 1)
-			const removed = { element: this.context.element, oldIndex }
-			this.resetTransitionData(oldIndex)
-			this.emitChanges({ removed })
-		},
+    onDragEnd() {
+      this.computeIndexes()
+      draggingElement = null
+    },
 
-		onDragUpdate(evt: any) {
-			removeNode(evt.item)
-			insertNodeAt(evt.from, evt.item, evt.oldIndex)
-			//@ts-ignore
-			const oldIndex = this.context.index
-			const newIndex = this.getVmIndex(evt.newIndex)
-			this.updatePosition(oldIndex, newIndex)
-			//@ts-ignore
-			const moved = { element: this.context.element, oldIndex, newIndex }
-			this.emitChanges({ moved })
-		},
+    getRelatedContextFromMoveEvent({ to, related }: any) {
+      const component = this
+      if (!component) {
+        return { component }
+      }
+      const list = component.realList
+      const context = { list, component }
+      if (to !== related && list && component.getUnderlyingVm) {
+        const destination = component.getUnderlyingVm(related)
+        if (destination) {
+          return Object.assign(destination, context)
+        }
+      }
+      return context
+    },
 
-		updateProperty(evt: any, propertyName: any) {
-			evt.hasOwnProperty(propertyName) &&
-				(evt[propertyName] += this.headerOffset)
-		},
-
-		onDragMove(evt: any, originalEvent: any) {
-			const onMove = this.move
-			if (!onMove || !this.realList) {
-				return true
-			}
-			const relatedContext = this.getRelatedContextFromMoveEvent(evt);
-			const draggedContext = this.context;
-			const futureIndex = this.computeFutureIndex(relatedContext, evt);
-			Object.assign(draggedContext, { futureIndex });
-			const sendEvt = Object.assign({}, evt, {
-				relatedContext,
-				draggedContext
-			});
-			return onMove(sendEvt, originalEvent);
-		},
-
-		onDragEnd() {
-			this.computeIndexes()
-			draggingElement = null
-		},
-
-		getRelatedContextFromMoveEvent({ to, related }: any) {
-			const component = this;
-			if (!component) {
-				return { component };
-			}
-			const list = component.realList;
-			const context = { list, component };
-			if (to !== related && list && component.getUnderlyingVm) {
-				const destination = component.getUnderlyingVm(related);
-				if (destination) {
-					return Object.assign(destination, context);
-				}
-			}
-			return context;
-		},
-
-		computeFutureIndex(relatedContext: any, evt: any) {
-			if (!relatedContext.element) {
-				return 0;
-			}
-			const domChildren = [...evt.to.children].filter(
-				el => el.style["display"] !== "none"
-			);
-			const currentDOMIndex = domChildren.indexOf(evt.related);
-			const currentIndex = relatedContext.component.getVmIndex(currentDOMIndex);
-			const draggedInList = domChildren.indexOf(draggingElement) !== -1;
-			return draggedInList || !evt.willInsertAfter
-				? currentIndex
-				: currentIndex + 1;
-		},
-	},
+    computeFutureIndex(relatedContext: any, evt: any) {
+      if (!relatedContext.element) {
+        return 0
+      }
+      const domChildren = [...evt.to.children].filter(
+        el => el.style['display'] !== 'none'
+      )
+      const currentDOMIndex = domChildren.indexOf(evt.related)
+      const currentIndex = relatedContext.component.getVmIndex(currentDOMIndex)
+      const draggedInList = domChildren.indexOf(draggingElement) !== -1
+      return draggedInList || !evt.willInsertAfter
+        ? currentIndex
+        : currentIndex + 1
+    },
+  },
 })
