@@ -1,6 +1,6 @@
 import Sortable from 'sortablejs'
 import { insertNodeAt, camelize, console, removeNode } from './util/helper'
-import { h, defineComponent, VNode, resolveComponent } from 'vue'
+import { h, VNode, resolveComponent, defineComponent } from 'vue'
 // TODO
 interface OpenObject {
   [key: string]: any

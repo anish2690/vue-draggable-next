@@ -46,7 +46,7 @@ const outputConfigs = {
     format: `iife`,
   },
   esm: {
-    file: pkg.browser,
+    file: pkg.browser || pkg.module.replace('-bundler.js', '-browser.js'),
     format: `es`,
   },
 }
