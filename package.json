@@ -1,35 +1,38 @@
 {
   "name": "vue-draggable-next",
-  "version": "1.0.8",
-  "description": "",
+  "version": "2.0.0",
+  "description": "Build Draggable component using vue 3",
   "main": "dist/vue-draggable-next.cjs.js",
-  "browser": "dist/vue-draggable-next.esm.js",
   "unpkg": "dist/vue-draggable-next.global.js",
   "jsdelivr": "dist/vue-draggable-next.global.js",
   "module": "dist/vue-draggable-next.esm-bundler.js",
-  "scripts": {
-    "build": "rollup -c rollup.config.js",
-    "dev": "vite serve",
-    "start": "vite serve --mode production",
-    "demo:build": "cross-env NODE_ENV=production vite build",
-    "release": "bash scripts/release.sh",
-    "build:dts": "api-extractor run --local --verbose",
-    "lint": "prettier -c --parser typescript \"{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
-    "lint:fix": "yarn run lint --write",
-    "test:types": "tsc --build tsconfig.json"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/anish2690/vue-draggable-next.git"
-  },
+  "types": "dist/vue-draggable-next.d.ts",
+  "sideEffects": false,
   "author": {
     "name": "Anish George",
     "email": "anishgeorge2690@gmail.com"
   },
-  "license": "MIT",
-  "engines": {
-    "node": ">=10.16.0"
+  "scripts": {
+    "build": "rollup -c rollup.config.js",
+    "build:dts": "api-extractor run --local --verbose",
+    "release": "bash scripts/release.sh",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1",
+    "size": "size-limit",
+    "lint": "prettier -c --parser typescript \"{src,__tests__,e2e}/**/*.[jt]s?(x)\"",
+    "lint:fix": "yarn run lint --write",
+    "test:types": "tsc --build tsconfig.json",
+    "test:unit": "jest --coverage",
+    "test": "yarn run test:types && yarn run test:unit && yarn run build && yarn run build:dts",
+    "playground:dev": "vite serve",
+    "playground:start": "vite serve --mode production",
+    "playground:build": "cross-env NODE_ENV=production vite build"
   },
+  "files": [
+    "dist/*.js",
+    "dist/vue-draggable-next.d.ts",
+    "LICENSE",
+    "README.md"
+  ],
   "keywords": [
     "typescript",
     "javascript",
@@ -40,30 +43,66 @@
     "vue-draggable",
     "vue-draggable-next"
   ],
-  "dependencies": {
-    "sortablejs": "^1.10.2"
-  },
+  "license": "MIT",
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^14.0.0",
-    "@rollup/plugin-node-resolve": "^8.4.0",
-    "@rollup/plugin-replace": "^2.3.3",
-    "@tailwindcss/ui": "^0.5.0",
-    "@types/sortablejs": "^1.10.5",
-    "@vue/compiler-sfc": "^3.0.0",
+    "@microsoft/api-extractor": "7.8.1",
+    "@rollup/plugin-alias": "^3.1.1",
+    "@rollup/plugin-commonjs": "^16.0.0",
+    "@rollup/plugin-node-resolve": "^10.0.0",
+    "@rollup/plugin-replace": "^2.3.4",
+    "@size-limit/preset-small-lib": "^4.7.0",
+    "@tailwindcss/ui": "^0.7.2",
+    "@types/jest": "^26.0.15",
+    "@types/jsdom": "^16.2.5",
+    "@types/sortablejs": "^1.10.6",
+    "@vue/test-utils": "^2.0.0-beta.8",
+    "codecov": "^3.8.1",
+    "conventional-changelog-cli": "^2.1.1",
     "cross-env": "^7.0.2",
+    "jest": "^26.5.3",
+    "lint-staged": "^10.5.1",
     "pascalcase": "^1.0.0",
-    "prettier": "^2.0.5",
-    "rollup-plugin-terser": "^6.1.0",
-    "rollup-plugin-typescript2": "^0.27.1",
-    "tailwindcss": "^1.7.5",
-    "ts-node": "^8.10.2",
-    "typescript": "^3.9.7",
-    "vite": "^1.0.0-rc.4",
-    "vue": "^3.0.0",
-    "vuex": "^4.0.0-beta.4"
+    "prettier": "^2.1.2",
+    "rollup": "^2.33.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.29.0",
+    "size-limit": "^4.7.0",
+    "sortablejs": "^1.12.0",
+    "tailwindcss": "^1.9.6",
+    "ts-jest": "^26.4.1",
+    "typescript": "^4.0.5",
+    "vite": "^1.0.0-rc.9",
+    "vue": "^3.0.2",
+    "vuex": "^4.0.0-rc.1",
+    "yorkie": "^2.0.0"
   },
+  "gitHooks": {
+    "pre-commit": "lint-staged",
+    "commit-msg": "node scripts/verifyCommit.js"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write"
+    ],
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
+  "size-limit": [
+    {
+      "path": "size-checks/basic.js"
+    }
+  ],
   "peerDependencies": {
-    "sortablejs": "^1.10.2",
+    "sortablejs": "^1.12.0",
     "vue": "^3.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anish2690/vue-draggable-next.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anish2690/vue-draggable-next/issues"
+  },
+  "homepage": "https://github.com/anish2690/vue-draggable-next#readme"
 }
