@@ -125,6 +125,7 @@ export const VueDraggableNext = defineComponent({
   emits: [
     'update:modelValue',
     'move',
+    'change',
     ...eventsListened.map(s => s.toLowerCase()),
     ...eventsToEmit.map(s => s.toLowerCase()),
   ],
