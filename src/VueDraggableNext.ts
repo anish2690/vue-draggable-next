@@ -122,6 +122,12 @@ const props = {
 export const VueDraggableNext = defineComponent({
   name: 'VueDraggableNext',
   inheritAttrs: false,
+  emits: [
+    'update:modelValue',
+    'move',
+    ...eventsListened.map(s => s.toLowerCase()),
+    ...eventsToEmit.map(s => s.toLowerCase()),
+  ],
   props,
   data() {
     return {
