@@ -9,20 +9,20 @@
       vue-draggable-next
     </div>
     <div class="flex justify-center">
-      <div
+      <router-link
         v-for="tab in tabs"
         :key="tab"
         class="bg-gray-200 p-4 cursor-pointer border hover:bg-gray-300"
-        @click="activeTab = tab.component"
-        :class="{ 'bg-gray-400': activeTab === tab.component }"
+        :to="{ name: tab.path }"
       >
         {{ tab.name }}
-      </div>
+      </router-link>
     </div>
     <div class="mx-10 my-10 shadow-xl p-5 component-container">
-      <div v-for="(tab, index) of tabs" :key="index">
+      <!-- <div v-for="(tab, index) of tabs" :key="index">
         <component :is="tab.component" v-if="tab.component === activeTab" />
-      </div>
+      </div> -->
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -31,13 +31,18 @@
 import { defineComponent, defineAsyncComponent, ref } from 'vue'
 
 const tabs = [
-  { name: 'Simple', component: 'basic' },
-  { name: 'Clone', component: 'clone' },
-  { name: 'Transition Group', component: 'transition-group' },
-  { name: 'Nested', component: 'nested-component' },
-  { name: 'Vuex', component: 'vuex-component' },
-  { name: 'V-Model', component: 'v-model-component' },
+  { path: 'basic', name: 'Simple', component: 'basic' },
+  { path: 'clone', name: 'Clone', component: 'clone' },
   {
+    path: 'transition',
+    name: 'Transition Group',
+    component: 'transition-group',
+  },
+  { path: 'nested', name: 'Nested', component: 'nested-component' },
+  { path: 'vuex', name: 'Vuex', component: 'vuex-component' },
+  { path: 'vmode', name: 'V-Model', component: 'v-model-component' },
+  {
+    path: 'third-party',
     name: 'Third Party',
     component: 'third-party',
   },
@@ -65,5 +70,8 @@ export default defineComponent({
 <style>
 .component-container {
   min-height: 600px;
+}
+.router-link-active {
+  @apply bg-gray-400 !important;
 }
 </style>

@@ -389,12 +389,12 @@ export const VueDraggableNext = defineComponent({
     },
 
     computeFutureIndex(relatedContext: any, evt: any) {
-      if (!relatedContext.element) {
-        return 0
-      }
       const domChildren = [...evt.to.children].filter(
         el => el.style['display'] !== 'none'
       )
+
+      if (domChildren.length === 0) return 0
+
       const currentDOMIndex = domChildren.indexOf(evt.related)
       const currentIndex = relatedContext.component.getVmIndex(currentDOMIndex)
       const draggedInList = domChildren.indexOf(draggingElement) !== -1

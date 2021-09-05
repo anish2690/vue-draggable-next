@@ -1,6 +1,6 @@
 {
   "name": "vue-draggable-next",
-  "version": "2.0.0",
+  "version": "2.0.3",
   "description": "Build Draggable component using vue 3",
   "main": "dist/vue-draggable-next.cjs.js",
   "unpkg": "dist/vue-draggable-next.global.js",
@@ -45,18 +45,18 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "@microsoft/api-extractor": "7.8.1",
-    "@rollup/plugin-alias": "^3.1.1",
-    "@rollup/plugin-commonjs": "^16.0.0",
-    "@rollup/plugin-node-resolve": "^10.0.0",
+    "@microsoft/api-extractor": "7.18.4",
+    "@rollup/plugin-alias": "^3.1.5",
+    "@rollup/plugin-commonjs": "^20.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-replace": "^2.3.4",
     "@size-limit/preset-small-lib": "^4.7.0",
     "@tailwindcss/ui": "^0.7.2",
     "@types/jest": "^26.0.15",
     "@types/jsdom": "^16.2.5",
-    "@types/sortablejs": "^1.10.6",
-    "@vitejs/plugin-vue": "^1.0.4",
-    "@vue/compiler-sfc": "^3.0.5",
+    "@types/sortablejs": "^1.10.7",
+    "@vitejs/plugin-vue": "^1.4.0",
+    "@vue/compiler-sfc": "^3.2.2",
     "@vue/test-utils": "^2.0.0-beta.8",
     "codecov": "^3.8.1",
     "conventional-changelog-cli": "^2.1.1",
@@ -65,17 +65,17 @@
     "lint-staged": "^10.5.1",
     "pascalcase": "^1.0.0",
     "prettier": "^2.1.2",
-    "rollup": "^2.33.1",
+    "rollup": "^2.56.2",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.29.0",
     "size-limit": "^4.7.0",
-    "sortablejs": "^1.13.0",
+    "sortablejs": "^1.14.0",
     "tailwindcss": "^1.9.6",
     "ts-jest": "^26.4.1",
-    "typescript": "^4.0.5",
-    "vite": "^2.0.0-beta.15",
-    "vue": "^3.0.5",
-    "vuex": "^4.0.0-rc.2",
+    "typescript": "^4.3.5",
+    "vite": "^2.4.1",
+    "vue": "^3.2.2",
+    "vuex": "^4.0.2",
     "yorkie": "^2.0.0"
   },
   "gitHooks": {
@@ -96,8 +96,8 @@
     }
   ],
   "peerDependencies": {
-    "sortablejs": "^1.13.0",
-    "vue": "^3.0.5"
+    "sortablejs": "^1.14.0",
+    "vue": "^3.2.2"
   },
   "repository": {
     "type": "git",
@@ -106,5 +106,8 @@
   "bugs": {
     "url": "https://github.com/anish2690/vue-draggable-next/issues"
   },
-  "homepage": "https://github.com/anish2690/vue-draggable-next#readme"
+  "homepage": "https://github.com/anish2690/vue-draggable-next#readme",
+  "dependencies": {
+    "vue-router": "4"
+  }
 }

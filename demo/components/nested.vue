@@ -9,7 +9,7 @@
   </div>
 </template>
 <script>
-import { VueDraggableNext } from '/@/'
+import { VueDraggableNext } from '/@'
 export default {
   props: {
     tasks: {
