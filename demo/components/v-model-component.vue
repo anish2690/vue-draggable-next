@@ -18,7 +18,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 // @ts-ignore
-import { VueDraggableNext } from '/@/'
+import { VueDraggableNext } from '/@'
 import rawDisplays from './rawDisplay.vue'
 export default defineComponent({
   components: {

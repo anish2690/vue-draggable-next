@@ -7,8 +7,10 @@ export default defineConfig({
   build: {
     outDir: 'demo_dist',
   },
-  alias: {
-    '/@/': path.resolve(__dirname, 'src'),
+  resolve: {
+    alias: {
+      '/@': path.resolve(__dirname, 'src'),
+    },
   },
   optimizeDeps: {
     include: ['sortablejs'],

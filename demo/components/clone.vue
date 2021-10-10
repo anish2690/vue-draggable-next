@@ -6,7 +6,7 @@
           class="dragArea list-group w-full"
           :list="list1"
           :group="{ name: 'people', pull: 'clone', put: false }"
-          :sort="false"
+          :sort="true"
           @change="log"
           :move="checkMove"
         >
@@ -81,7 +81,8 @@ export default defineComponent({
       console.log('replace')
     },
     checkMove(event) {
-      console.log('checkMove', event)
+      console.log('checkMove', event.draggedContext)
+      console.log('Future index: ' + event.draggedContext.futureIndex)
     },
     log(event) {
       const { moved, added } = event

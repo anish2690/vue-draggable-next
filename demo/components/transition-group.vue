@@ -1,9 +1,7 @@
 <template>
   <div class="flex justify-center">
     <div class="w-2/6 rounded overflow-hidden p-5">
-      <button class="btn btn-blue" @click="sort">
-        To original order
-      </button>
+      <button class="btn btn-blue" @click="sort">To original order</button>
       <draggable
         class="list-group"
         tag="ul"
@@ -35,7 +33,7 @@
 </template>
 
 <script>
-import { VueDraggableNext } from '/@/'
+import { VueDraggableNext } from '/@'
 import rawDisplayer from './rawDisplay.vue'
 const message = [
   'vue.js 3.0',
