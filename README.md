@@ -61,9 +61,7 @@ yarn add vue-draggable-next
 ```html
 <draggable v-model="myArray">
   <transition-group>
-    <div v-for="element in myArray" :key="element.id">
-      {{element.name}}
-    </div>
+    <div v-for="element in myArray" :key="element.id">{{element.name}}</div>
   </transition-group>
 </draggable>
 ```
@@ -167,7 +165,7 @@ Required: `false`<br>
 Default: `(original) => { return original;}`<br>
 
 Function called on the source component to clone element when clone option is true. The unique argument is the viewModel element to be cloned and the returned value is its cloned version.<br>
-By default vue.draggable reuses the viewModel element, so you have to use this hook if you want to clone or deep clone it.
+By default vue-draggable-next reuses the viewModel element, so you have to use this hook if you want to clone or deep clone it.
 
 #### move
 
@@ -243,7 +241,7 @@ HTML:
 
 ## 🌸 Thanks
 
-This project is heavily inspired by the following awesome projects.
+This project is heavily inspired by the following awesome vue 2 projects.
 
 - [SortableJS/Vue.Draggable](https://github.com/SortableJS/Vue.Draggable)
 
