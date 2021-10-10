@@ -178,7 +178,10 @@ export const VueDraggableNext = defineComponent({
       },
     }) as Sortable.Options
     !('draggable' in options) && (options.draggable = '>*')
-    this._sortable = new Sortable(this.$el, options)
+    const targetDomElement =
+      this.$el.nodeType === 1 ? this.$el : this.$el.parentElement
+    this._sortable = new Sortable(targetDomElement, options)
+    targetDomElement.__draggable_component__ = this
     this.computeIndexes()
   },
 
@@ -371,9 +374,11 @@ export const VueDraggableNext = defineComponent({
       this.computeIndexes()
       draggingElement = null
     },
-
+    getTrargetedComponent(htmElement: any) {
+      return htmElement.__draggable_component__
+    },
     getRelatedContextFromMoveEvent({ to, related }: any) {
-      const component = this
+      const component = this.getTrargetedComponent(to)
       if (!component) {
         return { component }
       }
