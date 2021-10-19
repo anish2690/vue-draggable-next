@@ -1,6 +1,6 @@
 {
   "name": "vue-draggable-next",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Build Draggable component using vue 3",
   "main": "dist/vue-draggable-next.cjs.js",
   "unpkg": "dist/vue-draggable-next.global.js",
@@ -76,7 +76,8 @@
     "vite": "^2.4.1",
     "vue": "^3.2.2",
     "vuex": "^4.0.2",
-    "yorkie": "^2.0.0"
+    "yorkie": "^2.0.0",
+    "vue-router": "4"
   },
   "gitHooks": {
     "pre-commit": "lint-staged",
@@ -106,8 +107,5 @@
   "bugs": {
     "url": "https://github.com/anish2690/vue-draggable-next/issues"
   },
-  "homepage": "https://github.com/anish2690/vue-draggable-next#readme",
-  "dependencies": {
-    "vue-router": "4"
-  }
+  "homepage": "https://github.com/anish2690/vue-draggable-next#readme"
 }
