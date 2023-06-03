@@ -1,6 +1,6 @@
 {
   "name": "vue-draggable-next",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Build Draggable component using vue 3",
   "main": "dist/vue-draggable-next.cjs.js",
   "unpkg": "dist/vue-draggable-next.global.js",
