@@ -302,6 +302,7 @@ export const VueDraggableNext = defineComponent({
     },
 
     onDragStart(evt: OpenObject) {
+      this.computeIndexes();
       this.context = this.getUnderlyingVm(evt.item)
       if (!this.context) return
       evt.item._underlying_vm_ = this.clone(this.context.element)
