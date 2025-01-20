@@ -2,7 +2,7 @@ import Sortable from 'sortablejs'
 import { insertNodeAt, camelize, console, removeNode } from './util/helper'
 import { h, VNode, resolveComponent, defineComponent } from 'vue'
 // TODO
-interface OpenObject {
+export interface OpenObject {
   [key: string]: any
 }
 
@@ -302,7 +302,7 @@ export const VueDraggableNext = defineComponent({
     },
 
     onDragStart(evt: OpenObject) {
-      this.computeIndexes();
+      this.computeIndexes()
       this.context = this.getUnderlyingVm(evt.item)
       if (!this.context) return
       evt.item._underlying_vm_ = this.clone(this.context.element)
