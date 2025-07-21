@@ -47,7 +47,7 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { VueDraggableNext } from '/@/'
+import { VueDraggableNext } from '/@'
 import rawDisplays from './rawDisplay.vue'
 export default defineComponent({
   name: 'App',

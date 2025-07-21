@@ -1,6 +1,8 @@
+import { VNode, defineComponent, h, resolveComponent } from 'vue'
+import { camelize, console, insertNodeAt, removeNode } from './util/helper'
+
 import Sortable from 'sortablejs'
-import { insertNodeAt, camelize, console, removeNode } from './util/helper'
-import { h, VNode, resolveComponent, defineComponent } from 'vue'
+
 // TODO
 export interface OpenObject {
   [key: string]: any
@@ -142,6 +144,7 @@ export const VueDraggableNext = defineComponent({
     }
   },
   render() {
+    console.log('render')
     const slots = this.$slots.default ? this.$slots.default() : null
     const attrs = getComponentAttributes(this.$attrs, this.componentData)
     if (!slots) return h(this.getTag(), attrs, [])
@@ -363,7 +366,9 @@ export const VueDraggableNext = defineComponent({
       const relatedContext = this.getRelatedContextFromMoveEvent(evt)
       const draggedContext = this.context
       const futureIndex = this.computeFutureIndex(relatedContext, evt)
-      Object.assign(draggedContext, { futureIndex })
+      if (draggedContext) {
+        Object.assign(draggedContext, { futureIndex })
+      }
       const sendEvt = Object.assign({}, evt, {
         relatedContext,
         draggedContext,

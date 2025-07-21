@@ -1,2 +1,2 @@
 export { VueDraggableNext } from './VueDraggableNext'
-export { OpenObject } from './VueDraggableNext'
+export type { OpenObject } from './VueDraggableNext'

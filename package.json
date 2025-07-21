@@ -72,12 +72,12 @@
     "sortablejs": "^1.14.0",
     "tailwindcss": "^1.9.6",
     "ts-jest": "^26.4.1",
-    "typescript": "^4.3.5",
+    "typescript": "^5.0.0",
     "vite": "^2.4.1",
     "vue": "^3.2.2",
+    "vue-router": "4",
     "vuex": "^4.0.2",
-    "yorkie": "^2.0.0",
-    "vue-router": "4"
+    "yorkie": "^2.0.0"
   },
   "gitHooks": {
     "pre-commit": "lint-staged",
@@ -98,7 +98,7 @@
   ],
   "peerDependencies": {
     "sortablejs": "^1.14.0",
-    "vue": "^3.2.2"
+    "vue": "^3.5.17"
   },
   "repository": {
     "type": "git",
@@ -107,5 +107,6 @@
   "bugs": {
     "url": "https://github.com/anish2690/vue-draggable-next/issues"
   },
-  "homepage": "https://github.com/anish2690/vue-draggable-next#readme"
+  "homepage": "https://github.com/anish2690/vue-draggable-next#readme",
+  "dependencies": {}
 }
