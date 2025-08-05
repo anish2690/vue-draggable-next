@@ -1,6 +1,6 @@
 {
   "name": "vue-draggable-next",
-  "version": "2.2.1",
+  "version": "2.3.0-beta.1",
   "description": "Vue 3 drag-and-drop component based on Sortable.js - Touch-friendly, lightweight, and TypeScript ready",
   "main": "dist/vue-draggable-next.cjs.js",
   "unpkg": "dist/vue-draggable-next.global.js",
