@@ -1,9 +1,9 @@
-import path from 'path'
-import ts from 'rollup-plugin-typescript2'
-import replace from '@rollup/plugin-replace'
-import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import pascalcase from 'pascalcase'
+import path from 'path'
+import replace from '@rollup/plugin-replace'
+import resolve from '@rollup/plugin-node-resolve'
+import ts from 'rollup-plugin-typescript2'
 
 const pkg = require('./package.json')
 const name = pkg.name
@@ -162,6 +162,11 @@ function createReplacePlugin(
     __GLOBAL__: isGlobalBuild,
     // is targeting Node (SSR)?
     __NODE_JS__: isNodeBuild,
+    // Vue 3 feature flags
+    __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false',
+    __VUE_OPTIONS_API__: 'true',
+    __VUE_PROD_DEVTOOLS__: !isProduction,
+    __VUE_PROD_WARN__: !isProduction,
   }
   // allow inline overrides like
   //__RUNTIME_COMPILE__=true yarn build

@@ -26,6 +26,7 @@
     "esModuleInterop": true,
     "removeComments": false,
     "jsx": "preserve",
+    "skipLibCheck": true,
     "lib": [
       "esnext",
       "dom"
