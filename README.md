@@ -14,7 +14,7 @@
 - ⚡ Lightweight (~7kb gzipped)
 - 🔧 All Sortable.js options supported
 
-[📚 **Live Demo & Playground**](https://vue-draggable-next.vercel.app/) | [📖 **Migration Guide**](#migration-from-vue-2) | [🎯 **Examples**](#examples)
+[📚 **Live Demo & Playground**](https://vue-draggable-next.vercel.app/) | [📖 **Migration Guide**](#-migration-from-vue-2) | [🎯 **Examples**](#-examples)
 
 ## 📦 Installation
 
