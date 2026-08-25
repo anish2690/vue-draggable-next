@@ -46,6 +46,7 @@ const tabs = [
     name: 'Third Party',
     component: 'third-party',
   },
+  { path: 'issue-72', name: 'Issue #72', component: 'issue-72' },
 ]
 
 const components = tabs.reduce((comps, item) => {

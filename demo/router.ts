@@ -8,6 +8,7 @@ import VuexComponent from './components/vuex-component.vue'
 import VModelComponent from './components/v-model-component.vue'
 import ThirdPartyComponent from './components/third-party.vue'
 import FutureIndexComponent from './components/futureIndex.vue'
+import Issue72Component from './components/issue-72.vue'
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -51,6 +52,11 @@ const router = createRouter({
       name: 'future-index',
       path: '/future-index',
       component: FutureIndexComponent,
+    },
+    {
+      name: 'issue-72',
+      path: '/issue-72',
+      component: Issue72Component,
     },
   ],
 })
