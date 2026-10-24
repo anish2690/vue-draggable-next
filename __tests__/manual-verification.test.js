@@ -12,18 +12,22 @@
 global.TextEncoder = global.TextEncoder || require('util').TextEncoder
 global.TextDecoder = global.TextDecoder || require('util').TextDecoder
 
-// Mock Sortable.js
+// Mock Sortable.js with the constructor used by the component.
+const mockSortableInstance = {
+  option: jest.fn(),
+  destroy: jest.fn(),
+  toArray: jest.fn(() => []),
+  sort: jest.fn(),
+  save: jest.fn(),
+  closest: jest.fn(),
+  on: jest.fn(),
+  off: jest.fn(),
+}
+const mockSortableConstructor = jest.fn(() => mockSortableInstance)
 const mockSortable = {
-  create: jest.fn(() => ({
-    option: jest.fn(),
-    destroy: jest.fn(),
-    toArray: jest.fn(() => []),
-    sort: jest.fn(),
-    save: jest.fn(),
-    closest: jest.fn(),
-    on: jest.fn(),
-    off: jest.fn(),
-  })),
+  __esModule: true,
+  default: mockSortableConstructor,
+  create: jest.fn(() => mockSortableInstance),
 }
 
 jest.doMock('sortablejs', () => mockSortable)
@@ -31,6 +35,20 @@ jest.doMock('sortablejs', () => mockSortable)
 describe('Documentation Examples Verification', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+
+  test('destroys Sortable and releases the component reference on unmount', () => {
+    const { mount } = require('@vue/test-utils')
+    const { VueDraggableNext } = require('../src/VueDraggableNext')
+    const wrapper = mount(VueDraggableNext, { props: { modelValue: [] } })
+    const element = wrapper.element
+
+    expect(element.__draggable_component__).toBe(wrapper.vm)
+
+    wrapper.unmount()
+
+    expect(mockSortableInstance.destroy).toHaveBeenCalledTimes(1)
+    expect(element.__draggable_component__).toBeUndefined()
   })
 
   describe('README Examples - Logic Tests', () => {

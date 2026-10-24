@@ -5,6 +5,7 @@ import {
   getCurrentInstance,
   h,
   nextTick,
+  onBeforeUnmount,
   onMounted,
   ref,
   resolveComponent,
@@ -420,6 +421,19 @@ export const VueDraggableNext = defineComponent({
     onMounted(() => {
       // Call setup's mounted method
       mounted()
+    })
+
+    onBeforeUnmount(() => {
+      const root = instance?.proxy?.$el
+      const targetDomElement =
+        root?.nodeType === 1 ? root : root?.parentElement || null
+
+      sortableInstance.value?.destroy()
+      sortableInstance.value = null
+
+      if (targetDomElement?.__draggable_component__ === instance?.proxy) {
+        delete targetDomElement.__draggable_component__
+      }
     })
 
     // created lifecycle equivalent (run synchronously)
